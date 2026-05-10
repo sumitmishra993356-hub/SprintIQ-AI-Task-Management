@@ -16,11 +16,18 @@ import connectDB from "./config/db.js";
 
 dotenv.config();
 
-connectDB();
+// connectDB();
+connectDB().catch(err => {
+  console.error("DB Connection Failed:", err);
+});
 
 const app = express();
 
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+  origin: "*",
+  credentials: true
+}));
 app.use(express.json());
 app.use(cookieParser());
 app.use(morgan("dev"));
@@ -45,5 +52,6 @@ app.use(errorHandler);
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(`Server running on port http://localhost:${PORT}`);
+  // console.log(`Server running on port http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
